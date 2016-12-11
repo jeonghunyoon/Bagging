@@ -8,5 +8,4 @@ Output will be a average of results of base learners.
 '''
 
 import urllib
-
-
+import numpy as np
