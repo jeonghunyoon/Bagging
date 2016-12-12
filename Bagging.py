@@ -46,7 +46,7 @@ predList = []
 bagProp = 0.5
 nBagSamples = int(len(xTrain) * bagProp)
 
-# Sample index with replacement
+# Bootstrap Sampling (with replacement)
 for iBaseModel in range(nBaseModel):
     sampIdx = []
     for i in range(nBagSamples):
