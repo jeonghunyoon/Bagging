@@ -8,6 +8,8 @@ Output will be a average of results of base learners.
 '''
 
 import urllib
+import random
+from sklearn.cross_validation import train_test_split
 
 ### 1. Load data from UCI repository and
 xData = []
@@ -30,6 +32,25 @@ for line in lines:
 nData = len(xData)
 nFeat = len(xData[0])
 
-### 2. Divide data set into train set and test set
+### 2. Divide data set into train set and test set! Why? avoid overfitting
+xTrain, xTest, yTrain, yTest = train_test_split(xData, yData, test_size=0.3, random_state=531)
+nTrain = len(xTrain)
 
+# Set parameters for ensemble model
+nBaseModel = 100
+treeDepth = 5
+modelList = []
+predList = []
 
+# Extract samples for bagging
+bagProp = 0.5
+nBagSamples = int(len(xTrain) * bagProp)
+
+# Sample index with replacement
+for iBaseModel in range(nBaseModel):
+    sampIdx = []
+    for i in range(nBagSamples):
+        sampIdx.append(random.choice(range(nTrain)))
+    sampIdx = sorted(sampIdx)
+    xTrainBag = [xTrain[i] for i in sampIdx]
+    yTrainBag = [yTrain[i] for i in sampIdx]
